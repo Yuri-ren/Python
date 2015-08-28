@@ -1,4 +1,5 @@
 # -*- coding:utf-8 -*-
+__author__='Yuri'
 import re
 import urllib2
 import urllib
