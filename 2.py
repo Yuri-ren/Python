@@ -17,7 +17,6 @@ real_author_pattern=re.compile(r'<.*>')
 author_duanzi_pattern=re.compile(r'<div class="author">.*<div class="content">.*?</div>',re.S)
 #####过滤匿名用户-08-27
 anonymous_pattern=re.compile(r'<div class="author">',re.M)
-<<<<<<< HEAD
 #####过滤段子信息
 duanzi_status_pattern=re.compile(r'<span class="stats-vote">.*?</span>',re.S)
 
