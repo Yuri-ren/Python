@@ -20,8 +20,6 @@ anonymous_pattern=re.compile(r'<div class="author">',re.M)
 <<<<<<< HEAD
 #####过滤段子信息
 duanzi_status_pattern=re.compile(r'<span class="stats-vote">.*?</span>',re.S)
-=======
->>>>>>> c3eb7eeb7fe3818bcfa1b9fd770037a61735e832
 
 ###添加http请求头，防止网站屏蔽
 user_agent='Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.157 Safari/537.36'
