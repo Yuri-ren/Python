@@ -1,4 +1,8 @@
 # -*- coding:utf-8 -*-
+<<<<<<< HEAD
+=======
+__author__='Yuri'
+>>>>>>> c3eb7eeb7fe3818bcfa1b9fd770037a61735e832
 import re
 import urllib2
 import urllib
@@ -16,8 +20,11 @@ real_author_pattern=re.compile(r'<.*>')
 author_duanzi_pattern=re.compile(r'<div class="author">.*<div class="content">.*?</div>',re.S)
 #####过滤匿名用户-08-27
 anonymous_pattern=re.compile(r'<div class="author">',re.M)
+<<<<<<< HEAD
 #####过滤段子信息
 duanzi_status_pattern=re.compile(r'<span class="stats-vote">.*?</span>',re.S)
+=======
+>>>>>>> c3eb7eeb7fe3818bcfa1b9fd770037a61735e832
 
 ###添加http请求头，防止网站屏蔽
 user_agent='Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.157 Safari/537.36'
@@ -44,6 +51,7 @@ def replace_Func(str):
         else:
             list1.append(i)
     return list1
+<<<<<<< HEAD
 ######去除字符串里面的tag并取出点赞数目
 def del_tag(str):
         pattern=re.compile(r'<.*?>')
@@ -52,6 +60,8 @@ def del_tag(str):
                 str=str.replace(i,'')
         return str.split(' ')[0]
 
+=======
+>>>>>>> c3eb7eeb7fe3818bcfa1b9fd770037a61735e832
 
 ####去除单个字符串里面的空格
 def del_space_func(str):
@@ -86,7 +96,10 @@ for i in temp_list:
 	final_list=[]
 	author=''
 	content=''
+<<<<<<< HEAD
 	vote=''
+=======
+>>>>>>> c3eb7eeb7fe3818bcfa1b9fd770037a61735e832
 	if filter_pattern.search(i) is None:#####过滤段子内容是否含有图片或者视频
 		if anonymous_pattern.search(i) is None:#####判断作者是否为匿名
 			#print i,'\n','*'*10
@@ -105,9 +118,13 @@ for i in temp_list:
 			final_list=replace_Func(temp_str)
 			author=final_list[0]
 			content=final_list[1]
+<<<<<<< HEAD
 		temp_vote=duanzi_status_pattern.findall(i)
 		vote=del_tag(temp_vote[0])
 		print "作者:",author,'\t','点赞数:',vote
+=======
+		print "作者:",author
+>>>>>>> c3eb7eeb7fe3818bcfa1b9fd770037a61735e832
 		print content
 		print '--'*40
 	else:
