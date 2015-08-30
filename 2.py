@@ -109,7 +109,6 @@ for i in temp_list:
 		temp_vote=duanzi_status_pattern.findall(i)
 		vote=del_tag(temp_vote[0])
 		print "作者:",author,'\t','点赞数:',vote
-		print "作者:",author
 		print content
 		print '--'*40
 	else:
