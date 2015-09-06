@@ -4,13 +4,24 @@ import string
 import urllib2
 import urllib
 
-url='http://tieba.baidu.com/p/3138733512?'
-post_data={'pn':1,'see_lz':'1'}
-#post_data=[('see_lz',1),('pn',1)]
-data=urllib.urlencode(post_data)
+class BDTB:
+	#baseURL=''
+	#see_lz=''
+	###类的初始化方法
+	def __init__(self,baseurl,seelz):
+		self.baseURL=baseurl
+		self.see_lz='?see_lz='+str(seelz)
+	def get_page(self,pageNum):
+		url=self.baseURL+self.see_lz+'&pn='+str(pageNum)
+		request=urllib2.Request(url)
+		response=urllib2.urlopen(request)
+		return response.read()
+	def print_url(self):
+		print self.baseURL
+		print self.see_lz
 
-#request=urllib2.Request()
-print data
-response=urllib.urlopen(url,data)
-print response.geturl()
-#print response.read()
+url='http://tieba.baidu.com/p/3196294113'
+bdtb=BDTB(url,1)
+temp_page=bdtb.get_page(1)
+print type(temp_page)
+#print temp_page

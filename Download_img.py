@@ -1,10 +1,13 @@
 # -*- coding:utf-8 -*-
 import re
-import string 
+import urllib
+import urllib2
 
-def show_args_using_mutable_defaults(arg, def_arg=[]):
-      def_arg.append("Hello World")
-      return "arg={}, def_arg={}".format(arg, def_arg)
- 
-print show_args_using_mutable_defaults("test")
-print show_args_using_mutable_defaults("test 2")
+temp_url="http://tieba.baidu.com/p/3196294113?pn="
+page=1
+url=temp_url+'1'
+
+response=urllib.urlopen(url)
+
+#print response.getcode()
+html=response.read()
