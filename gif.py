@@ -2,18 +2,25 @@
 import re
 import string 
 import urllib2
+import urllib
 import useful_functions
 
 baseurl='http://tieba.baidu.com/p/3196294113'
 #baseurl='http://tieba.baidu.com/p/3949977663'
 ####是否只看LZ
-see_lz='1'
+see_lz='0'
 ###初始页码
 pg_no=1
 
 #####获取页码总数
 page_count=re.compile(r'<li class.*共.*</li>')
 page_count_num=re.compile(r'\d{1,}')
+####获取gif正则表达式模式
+#gif_section_pattern=re.compile(r'<img class="BDE_Image".*?>')
+###09-09修改正则表达式模式，只抓取gif文件
+gif_section_pattern=re.compile(r'<img class="BDE_Image".*?pic_ext="gif"\s*>')
+
+
 page_request=urllib2.Request(baseurl)
 page_response=urllib2.urlopen(page_request)
 page_html=page_response.read()
@@ -32,9 +39,27 @@ while True:
 	response=urllib2.urlopen(request)
 	page=response.read()
 	
-	print pg_no
+	gif_section=gif_section_pattern.findall(page)
+	#print gif_section[0]
+	####当前页面gif总数
+	gif_count=gif_section.__len__()
+	print "当前页面gif总数为",gif_section.__len__(),"个"
+	
+	####当前页面上gif地址列表
+	url_list=map(useful_functions.get_url_from_html,gif_section)	
+	count=1
+	for i in url_list:
+		#print i
+		gif_save_path=
+		###获取gif文件名
+		file_name=i.split('/')[-1].split('.')[0]	
+		####user_list中的i就是url地址
+		print "正在下载第",count,"张gif~~~~"
+		urllib.urlretrieve(i,filename.gif)
+		count+=1	
 	pg_no=pg_no+1
-	if pg_no >page_count:
+	if pg_no >1:#####测试，后续删掉这一行
+	#if pg_no >page_count:
 		print "全部页面下载完成，退出"
 		break
 	else:

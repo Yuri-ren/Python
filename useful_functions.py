@@ -8,3 +8,10 @@ def del_tag(str):
         for i in list:
                 str=str.replace(i,'')
         return str.split(' ')[0]
+
+####由html便签中取出资源url地址
+def get_url_from_html(s):
+	pattern=re.compile(r'http://.*?"')
+	temp_url=pattern.findall(s)[0]
+	url=temp_url.split('"',1)[0]
+	return url
