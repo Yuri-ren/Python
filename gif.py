@@ -5,6 +5,9 @@ import urllib2
 import urllib
 import useful_functions
 
+#####下载百度贴吧url页面中的gif，自动遍历所有页面抓取
+#####see_lz变量控制是否只看LZ
+
 baseurl='http://tieba.baidu.com/p/3196294113'
 #baseurl='http://tieba.baidu.com/p/3949977663'
 ####是否只看LZ
@@ -40,7 +43,6 @@ while True:
 	page=response.read()
 	
 	gif_section=gif_section_pattern.findall(page)
-	#print gif_section[0]
 	####当前页面gif总数
 	gif_count=gif_section.__len__()
 	print "当前页面gif总数为",gif_section.__len__(),"个"
@@ -49,17 +51,17 @@ while True:
 	url_list=map(useful_functions.get_url_from_html,gif_section)	
 	count=1
 	for i in url_list:
-		#print i
-		gif_save_path=
+		base_dir='/tmp/gif_save/'
 		###获取gif文件名
 		file_name=i.split('/')[-1].split('.')[0]	
+		gif_save_path=base_dir+file_name+".gif"
 		####user_list中的i就是url地址
 		print "正在下载第",count,"张gif~~~~"
-		urllib.urlretrieve(i,filename.gif)
+		urllib.urlretrieve(i,gif_save_path)
 		count+=1	
 	pg_no=pg_no+1
-	if pg_no >1:#####测试，后续删掉这一行
-	#if pg_no >page_count:
+	#if pg_no >1:#####测试，后续删掉这一行
+	if pg_no >page_count:
 		print "全部页面下载完成，退出"
 		break
 	else:
