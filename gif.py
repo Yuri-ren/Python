@@ -1,10 +1,10 @@
 # -*- coding:utf-8 -*-
 import re
-import string 
 import urllib2
 import urllib
 import useful_functions
 
+__author__='Yuri'
 #####下载百度贴吧url页面中的gif，自动遍历所有页面抓取
 #####see_lz变量控制是否只看LZ
 
