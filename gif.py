@@ -3,6 +3,7 @@ import re
 import urllib2
 import urllib
 import useful_functions
+import time
 
 __author__='Yuri'
 #####下载百度贴吧url页面中的gif，自动遍历所有页面抓取
@@ -58,6 +59,7 @@ while True:
 		####user_list中的i就是url地址
 		print "正在下载第",count,"张gif~~~~"
 		urllib.urlretrieve(i,gif_save_path)
+#		time.sleep(2)
 		count+=1	
 	pg_no=pg_no+1
 	#if pg_no >1:#####测试，后续删掉这一行
@@ -68,6 +70,7 @@ while True:
 		print "Enter键下载下一页,任意键退出......."
 		input=raw_input()
         	if input is None or len(input) == 0:
+#			time.sleep(20)
 			continue
 		else:
 			break
