@@ -65,4 +65,13 @@ while True:
 		print "全部页面下载完成，退出"
 		break
 	else:
-		continue
+		print "Enter键下载下一页,任意键退出......."
+		input=raw_input()
+        	if input is None or len(input) == 0:
+			continue
+		else:
+			break
+
+
+
+
