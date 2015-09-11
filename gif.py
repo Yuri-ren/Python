@@ -4,13 +4,14 @@ import urllib2
 import urllib
 import useful_functions
 import time
+import requests
 
 __author__='Yuri'
 #####下载百度贴吧url页面中的gif，自动遍历所有页面抓取
 #####see_lz变量控制是否只看LZ
 
-baseurl='http://tieba.baidu.com/p/3196294113'
-#baseurl='http://tieba.baidu.com/p/3949977663'
+#baseurl='http://tieba.baidu.com/p/2858210485'
+baseurl='http://tieba.baidu.com/p/3949977663'
 ####是否只看LZ
 see_lz='0'
 ###初始页码
@@ -22,7 +23,8 @@ page_count_num=re.compile(r'\d{1,}')
 ####获取gif正则表达式模式
 #gif_section_pattern=re.compile(r'<img class="BDE_Image".*?>')
 ###09-09修改正则表达式模式，只抓取gif文件
-gif_section_pattern=re.compile(r'<img class="BDE_Image".*?pic_ext="gif"\s*>')
+#gif_section_pattern=re.compile(r'<img class="BDE_Image".*?pic_ext="gif"\s*>')
+gif_section_pattern=re.compile(r'<img class="BDE_Image".*?pic_ext="gif"')
 
 
 page_request=urllib2.Request(baseurl)
@@ -58,23 +60,22 @@ while True:
 		gif_save_path=base_dir+file_name+".gif"
 		####user_list中的i就是url地址
 		print "正在下载第",count,"张gif~~~~"
-		urllib.urlretrieve(i,gif_save_path)
+		####2015-09-11 修改gif的下载方式为request+file操作,urllib.retrieve方法不稳定
+		####linux下测试通过
+		gif_req=requests.get(i)
+		with open(gif_save_path,'w') as temp_file:
+			for temp_chunk in gif_req.iter_content(chunk_size=1024):
+				temp_file.write(temp_chunk)
+		####修改gif下载的方式，改由request库+fileobject写文件的方式进行
+		###urlretrieve下载方法在windows下测试通过
+		#urllib.urlretrieve(i,gif_save_path)
 #		time.sleep(2)
 		count+=1	
 	pg_no=pg_no+1
-	#if pg_no >1:#####测试，后续删掉这一行
-	if pg_no >page_count:
+	if pg_no >1:#####测试,仅处理第一页，后续删掉这一行
+	#if pg_no >page_count:
 		print "全部页面下载完成，退出"
 		break
 	else:
-		print "Enter键下载下一页,任意键退出......."
-		input=raw_input()
-        	if input is None or len(input) == 0:
-#			time.sleep(20)
-			continue
-		else:
-			break
-
-
-
-
+		###不需要键盘干预，程序自动执行
+		continue

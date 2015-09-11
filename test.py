@@ -1,7 +1,12 @@
 import re
 import urllib
+import requests
 
-filename='test'
-s='http://imgsrc.baidu.com/forum/w%3D580/sign=cfad46188401a18bf0eb1247ae2f0761/fd0ee924b899a90108719b021e950a7b0208f579.jpg'
-print s 
-urllib.urlretrieve(s,"/tmp/gif_save/test.gif")
+#req=requests.request('get','http://www.sh.com')
+#print req.text
+req=requests.get('http://imgsrc.baidu.com/forum/w%3D580/sign=2550bd7a5a82b2b7a79f39cc01adcb0a/a908acaf2edda3ccf8cd9d5e02e93901213f9265.jpg')
+with open('/tmp/test.gif','w') as file_temp:
+	for chunk in req.iter_content(chunk_size=1024):
+		file_temp.write(chunk)
+#with open('/tmp/test.log','w') as file:
+#	file.write('hello\nhello,ren')
