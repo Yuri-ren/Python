@@ -72,8 +72,8 @@ while True:
 #		time.sleep(2)
 		count+=1	
 	pg_no=pg_no+1
-	if pg_no >1:#####测试,仅处理第一页，后续删掉这一行
-	#if pg_no >page_count:
+	#if pg_no >1:#####测试,仅处理第一页，后续删掉这一行
+	if pg_no >page_count:
 		print "全部页面下载完成，退出"
 		break
 	else:
