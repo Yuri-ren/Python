@@ -10,6 +10,22 @@ __author__='Yuri'
 #####下载百度贴吧url页面中的gif，自动遍历所有页面抓取
 #####see_lz变量控制是否只看LZ
 
+####根据网页URL获取网页源代码的class
+class HTML():
+        def __init__(self,url):
+                self.url=url    
+        def get_html(self):
+                page_req=requests.get(self.url)
+                temp_html=page_req.text
+		return temp_html
+
+class GIF():
+	def __init__(self,url,see_lz):
+		self.URL=url
+		self.SEE_LZ=see_lz
+	def get_page_sum():
+		pass
+
 #baseurl='http://tieba.baidu.com/p/2858210485'
 baseurl='http://tieba.baidu.com/p/3949977663'
 ####是否只看LZ
@@ -41,9 +57,10 @@ while True:
 	#####拼接URL字符串
 	url=baseurl+'?'+'see_lz='+see_lz+'&pn='+str(pg_no)
 	####获取html页面
-	request=urllib2.Request(url)
-	response=urllib2.urlopen(request)
-	page=response.read()
+	#request=urllib2.Request(url)
+	#response=urllib2.urlopen(request)
+	#page=response.read()
+	page=HTML(url).get_html()
 	
 	gif_section=gif_section_pattern.findall(page)
 	####当前页面gif总数
@@ -63,7 +80,7 @@ while True:
 		####2015-09-11 修改gif的下载方式为request+file操作,urllib.retrieve方法不稳定
 		####linux下测试通过
 		gif_req=requests.get(i)
-		with open(gif_save_path,'w') as temp_file:
+		with open(gif_save_path,'wb') as temp_file:
 			for temp_chunk in gif_req.iter_content(chunk_size=1024):
 				temp_file.write(temp_chunk)
 		####修改gif下载的方式，改由request库+fileobject写文件的方式进行
@@ -72,8 +89,8 @@ while True:
 #		time.sleep(2)
 		count+=1	
 	pg_no=pg_no+1
-	#if pg_no >1:#####测试,仅处理第一页，后续删掉这一行
-	if pg_no >page_count:
+	if pg_no >1:#####测试,仅处理第一页，后续删掉这一行
+	#if pg_no >page_count:
 		print "全部页面下载完成，退出"
 		break
 	else:
