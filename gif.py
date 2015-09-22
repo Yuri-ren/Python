@@ -7,6 +7,7 @@ import time
 import requests
 
 __author__='Yuri'
+####windows下命令行会出现中文乱码，我的解决方法是直接使用Unicode字符，然后encode('gbk')进行转码
 #####下载百度贴吧url页面中的gif，自动遍历所有页面抓取
 #####see_lz变量控制是否只看LZ
 

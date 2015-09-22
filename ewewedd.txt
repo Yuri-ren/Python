@@ -1,0 +1,4 @@
+eb1.qly_shd09-11T03:00:40 Skipping table web1.qly_shd_moneyinfo because on the master it would be checksummed in one chunk but on these replicas it has too many rows:
+  456379 rows on t2.sh.com
+The current chunk size limit is 445762 rows (chunk size=222881 * chunk size limit=2.0).
+_borrow
