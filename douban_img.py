@@ -1,15 +1,13 @@
 # -*- coding: utf-8 -*-
 import re
 import string
-import time
 import urllib2
 import requests
-#import useful_functions
 
+__author__='Yuri'
 
 ####正则表达式匹配
-###上一张以及下一张图片的页面url代码段
-#prev_pattern=re.compile(r'<link.*\n.*上一张',re.M)
+###下一张图片的页面url代码段
 next_pattern=re.compile(r'<link.*\n.*下一张',re.M)
 ####由以上URL代码段取出页面真实URL地址
 geturl_pattern=re.compile(r'http[^"]*')
@@ -20,8 +18,8 @@ def_img_pattern=re.compile(r'<a class="mainphoto".*?http.*?http.*?"',re.S)
 
 ####相册的初始地址，即第一张图片地址
 ####相册的初始地址也可以作为相册遍历的停止条件，若下一张的地址为该baseurl的话，则相册图片遍历终止
-base_url='http://www.douban.com/photos/photo/1715943403/'
-begin_url='http://www.douban.com/photos/photo/1888254935/'
+base_url=raw_input('输入要下载的豆瓣相册的第一张图片URL:')
+begin_url=base_url
 base_req=requests.get(base_url)
 html_page=base_req.text.encode('utf-8')
 
@@ -83,26 +81,3 @@ while True:
 		print "开始下载下一张图片~~~~~~"
 		base_url=next_page
 		continue
-
-#url='http://img3.douban.com/view/photo/photo/public/p1888254935.jpg'
-#print url
-#if url.endswith('large'):
-	#url.split('/')[-2]
-#else:
-	#print "not ok"
-####遍历相册每一页
-#img_count=0
-#while True:
-	#print u"开始下载当前页面的图片......".encode('gbk')
-	#next_page=get_next_page(base_url)[0]
-	#img=get_next_page(base_url)[1]
-	#download_img(img)
-	#img_count+=1
-	#if (next_page==begin_url):
-#		print u"当前相册全部图片遍历完成,退出~~~~".encode('gbk')
-		#rint u"当前相册图片总数为:".encode('gbk'),img_count
-		#break
-	#else:
-	#	print u"开始下一张图片的下载.....".encode('gbk')
-	#	base_url=next_page
-	#	continue
