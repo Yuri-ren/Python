@@ -9,7 +9,7 @@ import os
 __author__='Yuri'
 
 ####淘宝图片地址，后续进行图片地址拼接
-img_server='http://img.alicdn.com/imgextra/i4/164298896/'
+img_server='http://img.alicdn.com/imgextra/'
 
 ###re pattern 
 js_pattern=re.compile(r'apiImgInfo:"//otds.alicdn.com/json/item_imgs.htm.*?"')
@@ -71,7 +71,7 @@ for i in img_url:
 	print "正在下载第",img_count,"张图片"
 	img_req=requests.get(i)
 	with open(img_path,'wb') as temp_file:
-		for temp_chunk in req.iter_content(chunk_size=1024):
+		for temp_chunk in img_req.iter_content(chunk_size=1024):
 			temp_file.write(temp_chunk)
 	img_count+=1
 	if (img_count>img_num):
