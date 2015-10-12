@@ -9,6 +9,7 @@ __pycache__/
 *.out
 *.log
 *.swp
+test.py
 # C extensions
 *.so
 
