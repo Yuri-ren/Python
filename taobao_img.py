@@ -109,14 +109,3 @@ for i in img_url:
 		break
 	else:
 		continue
-
-
-
-
-
-
-
-
-
-
-
