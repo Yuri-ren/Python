@@ -31,10 +31,22 @@ req=requests.get(base_url)
 html_page=req.text
 
 ###获取页面标题
+####windows下无法创建带有特殊文件的目录，若为windows平台的话，去掉特殊字符再创建目录
+special_str_list=r'* \ / : ? < > | "'.split(' ')
 temp_title=title_pattern.search(html_page).group(0)
-page_title=re.split(r'<.*?>',temp_title)[-2]
-os.mkdir(page_title)
-os._exit(-1)
+if (platform=='posix'):
+	page_title=re.split(r'<.*?>',temp_title)[-2].encode('utf8')
+	os.mkdir(page_title)
+if (platform=='nt'):
+	page_title=re.split(r'<.*?>',temp_title)[-2].encode('gbk')
+	for temp_str in special_str_list:
+		if page_title.__contains__(temp_str):
+			print "标题含有特殊字符--->",temp_str,"将会用空格替换!!!!"
+			page_title=page_title.replace(temp_str,'')
+		else:
+			continue
+	print u'下面开始创建图片存放目录~~~'
+	os.mkdir(page_title)
 
 #####获取卖家ID
 #temp_seller=seller_pattern.findall(html_page)
@@ -73,24 +85,27 @@ def url_map(temp_url):
 
 img_url=map(url_map,temp_img_list)
 img_num=len(img_url)
-print img_url
+#print img_url
 
 ####下载图片文件
 img_count=1
-print "当前页面商品图片总数为",img_num
+###图片存放目录，均为当前标题目录
+img_dir=page_title+'/'
+print img_dir
+print u"当前页面商品图片总数为",img_num
+
 for i in img_url:
 	###获取文件名
 	img_name=i.split('/')[-1]
-	img_dir='/tmp/taobao_img/'
 	img_path=img_dir+img_name
-	print "正在下载第",img_count,"张图片"
+	print u"正在下载第",img_count,u"张图片"
 	img_req=requests.get(i)
 	with open(img_path,'wb') as temp_file:
 		for temp_chunk in img_req.iter_content(chunk_size=1024):
 			temp_file.write(temp_chunk)
 	img_count+=1
 	if (img_count>img_num):
-		print "下载完成，退出~~"
+		print u"下载完成，退出~~"
 		break
 	else:
 		continue
