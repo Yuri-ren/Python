@@ -18,7 +18,15 @@ js2dict_pattern=re.compile(r'{.*}',re.S)
 filetype_pattern=re.compile(r'.*\..*')
 
 ####get html page
-req=requests.get('https://item.taobao.com/item.htm?spm=a1z10.5-c.w4002-1622594245.21.rjV9fe&id=520219772238')
+####根据系统,windows|linux来显示提示字符,防止乱码
+platform=os.name
+if(platform=='nt'):
+	base_url=raw_input(u'请输入要下载的页面地址:'.encode('gbk'))
+else:
+	base_url=raw_input('请输入要下载的页面地址:')
+
+os._exit(-1)
+req=requests.get('base_url')
 html_page=req.text
 
 #####获取卖家ID
