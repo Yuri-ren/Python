@@ -41,7 +41,7 @@ if (platform=='nt'):
 	page_title=re.split(r'<.*?>',temp_title)[-2].encode('gbk')
 	for temp_str in special_str_list:
 		if page_title.__contains__(temp_str):
-			print "标题含有特殊字符--->",temp_str,"将会用空格替换!!!!"
+			print u"标题含有特殊字符--->",temp_str,u"将会用空格替换!!!!"
 			page_title=page_title.replace(temp_str,'')
 		else:
 			continue
