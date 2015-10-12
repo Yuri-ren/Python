@@ -11,7 +11,9 @@ __author__='Yuri'
 ####淘宝图片地址，后续进行图片地址拼接
 img_server='http://img.alicdn.com/imgextra/'
 
-###re pattern 
+
+###re pattern
+title_pattern=re.compile(r'<title>.*</title>') 
 js_pattern=re.compile(r'apiImgInfo:"//otds.alicdn.com/json/item_imgs.htm.*?"')
 seller_pattern=re.compile(r'.sellerId:".*?"')
 js2dict_pattern=re.compile(r'{.*}',re.S)
@@ -25,16 +27,21 @@ if(platform=='nt'):
 else:
 	base_url=raw_input('请输入要下载的页面地址:')
 
-os._exit(-1)
-req=requests.get('base_url')
+req=requests.get(base_url)
 html_page=req.text
 
-#####获取卖家ID
-temp_seller=seller_pattern.findall(html_page)
-seller_id=str(temp_seller[0].split('"')[-2])
+###获取页面标题
+temp_title=title_pattern.search(html_page).group(0)
+page_title=re.split(r'<.*?>',temp_title)[-2]
+os.mkdir(page_title)
+os._exit(-1)
 
-js_temp=js_pattern.findall(html_page)
+#####获取卖家ID
+#temp_seller=seller_pattern.findall(html_page)
+#seller_id=str(temp_seller[0].split('"')[-2])
+
 ####得到生成图片的js地址
+js_temp=js_pattern.findall(html_page)
 img_js=str(js_temp[0].split('"')[-2].split('//')[-1])
 img_js_url="http://"+img_js
 
@@ -50,7 +57,7 @@ def u2utf8(temp_string):
 js_dict=js2dict_pattern.findall(temp_json)[0]
 img_url_dict=json.loads(js_dict)
 
-####temp_img_list为暂存图片文件名的列表
+####temp_img_list为暂存图片文件名的列表，将符合正则表达式的图片文件名存入列表
 temp_img_list=[]
 for i in img_url_dict.keys():
 	temp_item=u2utf8(i)
@@ -67,7 +74,7 @@ def url_map(temp_url):
 img_url=map(url_map,temp_img_list)
 img_num=len(img_url)
 print img_url
-os._exit(0)
+
 ####下载图片文件
 img_count=1
 print "当前页面商品图片总数为",img_num
