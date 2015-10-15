@@ -14,10 +14,17 @@ img_server='http://img.alicdn.com/imgextra/'
 
 ###re pattern
 title_pattern=re.compile(r'<title>.*</title>') 
-js_pattern=re.compile(r'apiImgInfo:"//otds.alicdn.com/json/item_imgs.htm.*?"')
-seller_pattern=re.compile(r'.sellerId:".*?"')
+###修改寻找js的正则表达式,有两个，desc.alicdn.com和dsc.taobaocdn.com,任取其一都可以.注意，此处服务器与下文请求js得出的img地址相关
+#js_pattern=re.compile(r'apiImgInfo:"//otds.alicdn.com/json/item_imgs.htm.*?"')
+js_pattern=re.compile(r'desc.alicdn.com.[^"]*')
+###由js请求结果过滤img地址的pattern
+img_js_pattern=re.compile(r'img.alicdn.com.[^"]*')
 js2dict_pattern=re.compile(r'{.*}',re.S)
 filetype_pattern=re.compile(r'.*\..*')
+
+#####将unicode字符转换为utf编码
+def u2utf8(temp_string):
+	return temp_string.encode('utf8')
 
 ####get html page
 ####根据系统,windows|linux来显示提示字符,防止乱码
@@ -48,44 +55,26 @@ if (platform=='nt'):
 	print u'下面开始创建图片存放目录~~~'
 	os.mkdir(page_title)
 
-#####获取卖家ID
-#temp_seller=seller_pattern.findall(html_page)
-#seller_id=str(temp_seller[0].split('"')[-2])
-
 ####得到生成图片的js地址
-js_temp=js_pattern.findall(html_page)
-img_js=str(js_temp[0].split('"')[-2].split('//')[-1])
-img_js_url="http://"+img_js
+js_temp=js_pattern.findall(html_page)[0]
+img_js_url="http://"+str(js_temp)
 
 ###请求该js地址，获得关于图片地址json字符串
 js_req=requests.get(img_js_url)
+#temp_json=js_req.text.encode('utf8')
 temp_json=js_req.text
 
-#####将unicode字符转换为utf编码
-def u2utf8(temp_string):
-	return temp_string.encode('utf8')
+###由请求js获得img地址
+img_url_list=img_js_pattern.findall(temp_json)
 
-###将json字符串转换为字典
-js_dict=js2dict_pattern.findall(temp_json)[0]
-img_url_dict=json.loads(js_dict)
-
-####temp_img_list为暂存图片文件名的列表，将符合正则表达式的图片文件名存入列表
-temp_img_list=[]
-for i in img_url_dict.keys():
-	temp_item=u2utf8(i)
-	if filetype_pattern.search(temp_item) is None:
-		continue
-	else:
-		temp_img_list.append(temp_item)
-		
-###map函数，拼接完整的图片文件URL地址
-def url_map(temp_url):
-	img_url=img_server+temp_url	
+###map,拼接请求的img地址
+def img_url_map(temp_url):
+	img_url="http://"+temp_url
 	return img_url
-
-img_url=map(url_map,temp_img_list)
+##最终得到的img地址列表
+img_url=map(img_url_map,img_url_list)
+##图片总数
 img_num=len(img_url)
-#print img_url
 
 ####下载图片文件
 img_count=1
@@ -96,7 +85,7 @@ print u"当前页面商品图片总数为",img_num
 
 for i in img_url:
 	###获取文件名
-	img_name=i.split('/')[-1]
+	img_name=str(i).split('/')[-1]
 	img_path=img_dir+img_name
 	print u"正在下载第",img_count,u"张图片"
 	img_req=requests.get(i)
