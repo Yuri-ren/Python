@@ -15,3 +15,7 @@ def get_url_from_html(s):
 	temp_url=pattern.findall(s)[0]
 	url=temp_url.split('"',1)[0]
 	return url
+
+####下载资源的方法
+def download(temp_url,file_path):
+	pass	
