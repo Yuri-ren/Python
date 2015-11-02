@@ -32,7 +32,7 @@ def del_str_for_win(dir_name):
 	return dir_name
 		
 ###以下是测试代码行
-if (__name__='main'):
+if __name__=='__main__':
 	page_title='renyouyin*de**dede??ki<>'
 	print del_str_for_win(page_title)
 else:
