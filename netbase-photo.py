@@ -9,7 +9,7 @@ import os
 title_pattern=re.compile(r'class="picset-title".*?[^<]*')
 img_url_pattern=re.compile(r'<img  class="z-tag data-lazyload-src".*?data-lazyload-src=".*?"')
 
-base_url=raw_input(u'需要下载的网易摄影的页面URL地址:'.encode('gbk'))
+base_url=raw_input('需要下载的网易摄影的页面URL地址:')
 
 req=requests.get(base_url)
 ###转码为utf8就可以，此处转为gbk是为了在windows命令行下使用，防止乱码
