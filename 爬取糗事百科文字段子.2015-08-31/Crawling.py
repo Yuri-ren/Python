@@ -1,6 +1,5 @@
 # -*- coding:utf-8 -*-
 ###从第一页开始抓取文字段子，Enter键继续下一页，任意键退出
-__author__='Yuri'
 import re
 import urllib2
 import urllib
@@ -17,12 +16,12 @@ while True:
 	#######过滤图片和视频###
 	filter_pattern=re.compile(r'<div class="thumb">|<video class')
 	####从页面中抓取作者
-	author_pattern=re.compile(r'<div class="author">.*?</div>',re.S)
+	author_pattern=re.compile(r'<div class="author.*?">.*?</div>',re.S)
 	real_author_pattern=re.compile(r'<.*>')
 	#####08-26抓取网页中的作者和段子部分
-	author_duanzi_pattern=re.compile(r'<div class="author">.*<div class="content">.*?</div>',re.S)
+	author_duanzi_pattern=re.compile(r'<div class="author.*?">.*?<div class="content">.*?</div>',re.S)
 	#####过滤匿名用户-08-27
-	anonymous_pattern=re.compile(r'<div class="author">',re.M)
+	anonymous_pattern=re.compile(r'<div class="author.*?">',re.M)
 	#####过滤段子信息
 	duanzi_status_pattern=re.compile(r'<span class="stats-vote">.*?</span>',re.S)
 	
