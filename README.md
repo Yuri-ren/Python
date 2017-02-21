@@ -16,4 +16,5 @@
 ###**netbase-photo.py** 下载网易摄影图片
 > * 输入网易摄影图集URL，然后遍历下载整个图集
 
-
+###**get_newest_cf_act.py**  抓取cf最新活动页面
+> * 抓取cf.huodong.com首页最新的cf活动页面并且微信出来
