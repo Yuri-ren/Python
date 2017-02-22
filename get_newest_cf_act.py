@@ -12,13 +12,11 @@ import sys
 
 ##先取得上一次保存的最新活动
 old_act_list=pickle.load(open("/home/root1/last_act_list",'r'))
-#print old_act_list
-
-
 
 ###获取活动的真正网址
 def get_real_url(title,url):
 	real_title=title
+	real_url=''
 	req=requests.get(url)
 	req.encoding='utf-8'
         temp_soup=req.text
@@ -30,7 +28,7 @@ def get_real_url(title,url):
 			real_url=temp_url
 	return real_title,real_url
 
-#print get_real_url('CF3月4日活动 CF3月4日在线抽英雄级武器网址','http://www.cfhuodong.com/2017-3-4.html')
+#print get_real_url('CF王牌幸运星2月网址 幸运折扣抽奖 C哥抽到1折','http://www.cfhuodong.com/2017-2-21.html')
 #os._exit(-1)
 
 ###获取cf最新活动
@@ -71,32 +69,13 @@ else:
 	for i in temp_act_list:
 		if i not in old_act_list:
 			##最新活动
-#			print i['title'],i['url']
+			#print i['title'],i['url']
 			fin_title,fin_url=get_real_url(i['title'],i['url'])
 			#wechat msg
 			#msg="最新活动:",fin_title,"URL为:",fin_url
 			msg=fin_title+fin_url
-			#print msg
+			print msg
 			##send weichat message
 			push_dict={'to':'renyouyin','msg':'','sub':'jiankong','method':'wx'}
 			push_dict['msg']=msg
 			req=requests.post("http://alarm.cc.p2cdn.com:8080/alarm",data=push_dict)
-#print fin_title,fin_url
-
-#wechat msg
-#msg="最新活动:",fin_title,"URL为:",fin_url
-#msg=fin_title+fin_url
-#print msg
-##send weichat message
-#push_dict={'to':'renyouyin','msg':'','sub':'jiankong','method':'wx'}
-#push_dict['msg']=msg
-#req=requests.post("http://alarm.cc.p2cdn.com:8080/alarm",data=push_dict)
-
-#newest_title=temp_list[-1]['title']
-#print newest_title
-
-##存一下最新的活动信息
-#r=redis.Redis(host='127.0.0.1',port=6379,db=0)
-#r.set('newest',newest_title)
-#r.save()
-#print r.get('newest')
