@@ -26,6 +26,8 @@ def get_real_url(title,url):
 		temp_url=i['href']
 		if 'cf.qq.com' in temp_url:
 			real_url=temp_url
+		elif 'act.daoju.qq.com' in temp_url:
+			real_url=temp_url
 	return real_title,real_url
 
 #print get_real_url('CF王牌幸运星2月网址 幸运折扣抽奖 C哥抽到1折','http://www.cfhuodong.com/2017-2-21.html')
@@ -74,7 +76,7 @@ else:
 			#wechat msg
 			#msg="最新活动:",fin_title,"URL为:",fin_url
 			msg=fin_title+fin_url
-			print msg
+			#print msg
 			##send weichat message
 			push_dict={'to':'renyouyin','msg':'','sub':'jiankong','method':'wx'}
 			push_dict['msg']=msg
