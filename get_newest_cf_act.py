@@ -5,6 +5,7 @@ import bs4
 import os
 import cPickle as pickle
 import sys
+import subprocess
 
 #print sys.path
 #sys.path.append('/usr/local/python2.7.5/lib/python2.7/site-packages/bs4/')
@@ -77,7 +78,9 @@ else:
 			#msg="最新活动:",fin_title,"URL为:",fin_url
 			msg=fin_title+fin_url
 			#print msg
-			##send weichat message
-			push_dict={'to':'renyouyin','msg':'','sub':'jiankong','method':'wx'}
-			push_dict['msg']=msg
-			req=requests.post("http://alarm.cc.p2cdn.com:8080/alarm",data=push_dict)
+			#send to my email
+			#/usr/local/bin/sendEmail -q -s smtp.xunlei.com -f monitor.xycdn@xunlei.com -t renyouyin@xunlei.com -xu monitor.xycdn@xunlei.com -xp 6WvAb5iVVw41 -u "hello,evernote" -m "test"
+			#insert_cmd="sed -i '/"+str(group_name)+"/d' /etc/salt/master.d/nodegroups.conf;"+'echo -e "'+group_string+"'"+"\" >>/etc/salt/master.d/nodegroups.conf"
+			#s=subprocess.check_call(insert_cmd,shell=True)
+			send_cmd="/usr/local/bin/sendEmail -q -s smtp.xunlei.com -f monitor.xycdn@xunlei.com -t renyouyin@xunlei.com -xu monitor.xycdn@xunlei.com -xp 6WvAb5iVVw41 -u 'new cf activity~~~' -m "+msg
+			s=subprocess.check_call(send_cmd,shell=True)
