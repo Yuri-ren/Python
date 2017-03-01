@@ -38,8 +38,9 @@ def get_real_url(title,url):
 def get_cf_act():
 	#res_dict={'title':'','url':''}
 	res_list=[]
+	add_headers={'Host':'www.cfhuodong.com','User-Agent':'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'}
 	url='http://www.cfhuodong.com/zuixin/'
-	req=requests.get(url)
+	req=requests.get(url,headers=add_headers)
 	req.encoding='utf-8'
 	temp_soup=req.text
 
