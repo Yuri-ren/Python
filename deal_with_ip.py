@@ -5,6 +5,7 @@ import re
 import time
 import sheng
 
+
 command='rm -f ./deal_with_ip.code'
 
 ##清理之前记录文件
