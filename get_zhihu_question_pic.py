@@ -10,7 +10,6 @@ s=requests.Session()
 ###获取验证码的函数
 def get_verify_code():
 	url='http://www.zhihu.com/captcha.gif'
-	
 	req=s.get(url,params={'r':random.random()})
 	#####保存验证码图片
 	with open ('verify.gif','wb') as temp_file:
@@ -23,24 +22,15 @@ def get_verify_code():
 
 ###获取知乎页面xsrf值的函数
 def get_xsrf():
-	headers = {
-    	'User-Agent': "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36",
-        'Host': "www.zhihu.com",
-        'Origin': "http://www.zhihu.com/",
-        'Pragma': "no-cache",
-        'Referer': "http://www.zhihu.com/",
-        'X-Requested-With': "XMLHttpRequest"
-    }
-	req=requests.get('https://www.zhihu.com',headers=headers)
+	req=requests.get('http://www.zhihu.com')
 	html_page=req.content
 	xsrf=re.search(r'<input type=\"hidden\" name=\"_xsrf\" value=\".*\"',html_page).group().split('"')[-2]
 	return xsrf
 
-
 ###构造post data并模拟登陆知乎
-def login_zhihu():
+def login_zhihu(account,password):
 	form={}
-        ###登录地址有变化 https://www.zhihu.com/#signin
+	####区分email账户与手机号
 	if(re.search(r'\w*@\w*\.\w*',account)):
 		print "email account~"
 		login_url='http://www.zhihu.com/login/email'
@@ -63,10 +53,9 @@ def login_zhihu():
     ####构造form 表单
 	form['_xsrf']=get_xsrf()
 	form['remember_me']='true'
-	form['email']='18661636927'
-	form['password']='15854784557'
+	form['email']=account
+	form['password']=password
 	form['captcha']=get_verify_code()
-        print form
 
     ####请求登陆URL
 	req=s.post(login_url,headers=headers,data=form)
@@ -86,8 +75,8 @@ if __name__=='__main__':
 	#print get_xsrf()
 	#get_verify_code()6rrl
 	#login_zhihu('18661636927','')
-	#account=raw_input("input your Zhihu account:")
-	#password=raw_input("input your account password:")
-	login_zhihu()
+	account=raw_input("input your Zhihu account:")
+	password=raw_input("input your account password:")
+	login_zhihu(account,password)
 else:
 	pass
