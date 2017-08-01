@@ -10,7 +10,11 @@ import os
 
 ##需要获取域名的list
 domain_list=['pl8.live.panda.tv','pl7.live.panda.tv']
-
+##查询数据的起始时间
+start_day=datetime.date.today()-datetime.timedelta(days=2)
+end_day=''
+print type(start_day)
+os._exit(-1)
 
 ##昨天的日期格式
 ##近一周的日期list
