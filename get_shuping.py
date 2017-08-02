@@ -60,6 +60,7 @@ def CalBandForDomain(domain):
 	end_day=datetime.date.today()-datetime.timedelta(days=7)
 	url="http://api.data.p2cdn.com/v2/topic/domain/pull/out/pro/isp/day/"+temp_topic+"?"+"domain="+domain+"&sdate="+str(end_day)+"~"+str(start_day)
 	req=requests.get(url)
+	#print req.status_code
 	if req.status_code !=200:
 		print "请求数据平台api失败"
 		os._exit(-1)
