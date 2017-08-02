@@ -11,10 +11,8 @@ import os
 ##需要获取域名的list
 domain_list=['pl8.live.panda.tv','pl7.live.panda.tv']
 ##查询数据的起始时间
-start_day=datetime.date.today()-datetime.timedelta(days=2)
-end_day=''
-print type(start_day)
-os._exit(-1)
+start_day=datetime.date.today()-datetime.timedelta(days=1)
+end_day=datetime.date.today()-datetime.timedelta(days=7)
 
 ##昨天的日期格式
 ##近一周的日期list
@@ -34,9 +32,6 @@ def GetWeekAgoDay():
 	#print day_before_2_day
 	return datetime.date.today()-datetime.timedelta(days=9)
 
-print GetWeekAgoDay()
-os._exit(-1)
-
 ###生成鉴权的token
 #temp_t=time.localtime()
 #(tm_year=2017, tm_mon=8, tm_mday=1, tm_hour=13, tm_min=22, tm_sec=41, tm_wday=1, tm_yday=213, tm_isdst=0)
@@ -50,4 +45,36 @@ def GetToken():
 ##获得当前token
 temp_topic=GetToken()
 ###拼接请求的url
-data_url="http://api.data.p2cdn.com/v2/topic/domain/pull/out/pro/isp/day/"+temp_topic
+####请求近一周的pl8海外带宽数量
+#data_url="http://api.data.p2cdn.com/v2/topic/domain/pull/out/pro/isp/day/"+temp_topic+"?"+"domain=pl8.live.panda.tv"+"&sdate="+str(end_day)+"~"+str(start_day)
+
+##计算域名带宽方法
+#def CalBandForDomain(domain,start_day,end_day):
+def CalBandForDomain(domain):
+	##开始和结束时间
+	#{'pl8.live.panda.tv':['sdate':'','band_total':'']}
+	res_dict={domain:''}
+	band_total=''
+	
+	start_day=datetime.date.today()-datetime.timedelta(days=1)
+	end_day=datetime.date.today()-datetime.timedelta(days=7)
+	url="http://api.data.p2cdn.com/v2/topic/domain/pull/out/pro/isp/day/"+temp_topic+"?"+"domain="+domain+"&sdate="+str(end_day)+"~"+str(start_day)
+	req=requests.get(url)
+	if req.status_code !=200:
+		print "请求数据平台api失败"
+		os._exit(-1)
+	else:
+		##temp_json为返回数据 格式为list
+		temp_res_list=req.json()['data']
+		for temp_dict in temp_res_list:
+			pass
+			#print temp_dict
+	#print res_dict
+		
+
+##test
+#if "__name__"=="__main__":
+CalBandForDomain('pl8.live.panda.tv')
+
+
+
