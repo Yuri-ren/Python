@@ -20,11 +20,12 @@ end_day=datetime.date.today()-datetime.timedelta(days=7)
 #print datetime.date.today()
 def GetWeekList():
 	week_list=[]
-	for i in range(2,9):
+	for i in range(1,8):
 		day=datetime.date.today()-datetime.timedelta(days=i)
-		week_list.append(day)
+		week_list.append(str(day))
 	##list中每一个为data object
 	return week_list
+current_week_list=GetWeekList()
 
 ##取得一周前的时间点，为查询时间段做准备，同上，从2天前开始算
 def GetWeekAgoDay():
@@ -44,38 +45,75 @@ def GetToken():
 
 ##获得当前token
 temp_topic=GetToken()
-###拼接请求的url
-####请求近一周的pl8海外带宽数量
-#data_url="http://api.data.p2cdn.com/v2/topic/domain/pull/out/pro/isp/day/"+temp_topic+"?"+"domain=pl8.live.panda.tv"+"&sdate="+str(end_day)+"~"+str(start_day)
 
-##计算域名带宽方法
-#def CalBandForDomain(domain,start_day,end_day):
-def CalBandForDomain(domain):
-	##开始和结束时间
-	#{'pl8.live.panda.tv':['sdate':'','band_total':'']}
-	res_dict={domain:''}
-	band_total=''
-	
-	start_day=datetime.date.today()-datetime.timedelta(days=1)
-	end_day=datetime.date.today()-datetime.timedelta(days=7)
+##请求全量数据的方法 返回一个json
+def GetAllData(domain):
 	url="http://api.data.p2cdn.com/v2/topic/domain/pull/out/pro/isp/day/"+temp_topic+"?"+"domain="+domain+"&sdate="+str(end_day)+"~"+str(start_day)
+	# print url
 	req=requests.get(url)
-	#print req.status_code
 	if req.status_code !=200:
 		print "请求数据平台api失败"
 		os._exit(-1)
 	else:
 		##temp_json为返回数据 格式为list
+		print "请求数据平台api成功"
 		temp_res_list=req.json()['data']
-		for temp_dict in temp_res_list:
-			pass
-			#print temp_dict
-	#print res_dict
-		
+	return temp_res_list
+
+# os._exit(-1)
+
+###拼接请求的url
+####请求近一周的pl8海外带宽数量
+#data_url="http://api.data.p2cdn.com/v2/topic/domain/pull/out/pro/isp/day/"+temp_topic+"?"+"domain=pl8.live.panda.tv"+"&sdate="+str(end_day)+"~"+str(start_day)
+
+##计算域名带宽方法
+def CalBandForDomain(domain,data_list):
+	##开始和结束时间
+	#{'pl8.live.panda.tv':['sdate':'','band_total':'']}
+	temp_result_list=[]
+	res_dict={domain:temp_result_list}
+	##final format
+	# {'pl8.live.panda.tv': [{'2017-08-02': ''}, {'2017-08-01': ''}, {'2017-07-31': ''}, {'2017-07-30': ''}, {'2017-07-29': ''}, {'2017-07-28': ''}, {'2017-07-27': ''}]}
+	band_total=0
+	for i in current_week_list:
+		#生成每一个日期对应的dict 最后append到temp_result_list中
+		# {'2017-08-02': ''}
+		temp_dict_in_list={i:''}
+		for temp_data in data_list:
+			if temp_data['sdate'] == i:		
+				if temp_data['domain']==domain:
+					if int(temp_data['country']) != 47:
+						#带宽求和
+						# print type(temp_data['country'])
+						band_total=band_total+float(temp_data['band'])
+					else:
+						##排除中国的带宽
+						pass
+				else:
+					##非特定域名
+					pass
+			else:
+				##日期匹配不上
+				pass
+
+		# print band_total
+		temp_dict_in_list[i]=band_total
+		# print temp_dict_in_list
+		# [{'2017-08-02': ''},]
+		temp_result_list.append(temp_dict_in_list)
+	# print temp_result_list
+	return res_dict
 
 ##test
 #if "__name__"=="__main__":
-CalBandForDomain('pl8.live.panda.tv')
+# GetAllData('pl8.live.panda.tv')
+# CalBandForDomain('pl8.live.panda.tv',[1,2,3])
+# os._exit(-1)
+
+for i in domain_list:
+	##每个domain对应的全量信息
+	temp_all_data=GetAllData(i)
+	print CalBandForDomain(i,temp_all_data)
 
 
 
