@@ -74,8 +74,8 @@ def CalBandForDomain(domain,data_list):
 	res_dict={domain:temp_result_list}
 	##final format
 	# {'pl8.live.panda.tv': [{'2017-08-02': ''}, {'2017-08-01': ''}, {'2017-07-31': ''}, {'2017-07-30': ''}, {'2017-07-29': ''}, {'2017-07-28': ''}, {'2017-07-27': ''}]}
-	band_total=0
 	for i in current_week_list:
+		band_total=0
 		#生成每一个日期对应的dict 最后append到temp_result_list中
 		# {'2017-08-02': ''}
 		temp_dict_in_list={i:''}
@@ -97,7 +97,7 @@ def CalBandForDomain(domain,data_list):
 				pass
 
 		# print band_total
-		temp_dict_in_list[i]=band_total
+		temp_dict_in_list[i]=band_total/(1000*1000)
 		# print temp_dict_in_list
 		# [{'2017-08-02': ''},]
 		temp_result_list.append(temp_dict_in_list)
