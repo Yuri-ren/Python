@@ -6,6 +6,7 @@ add by yuri
 '''
 
 import time,requests,md5,datetime
+from echarts import Echart,Legend,Bar,Axis
 import os
 
 ###倒置一个list 为了最后填充数据使用
