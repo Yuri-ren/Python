@@ -8,8 +8,14 @@ add by yuri
 import time,requests,md5,datetime
 import os
 
+###倒置一个list 为了最后填充数据使用
+# temp_l=[2268.1028273066668, 1549.2366309600034, 1737.9599384799994, 1597.4116898133348, 1852.0315420533348, 3023.488939999995, 2833.0235811999987]
+# print temp_l
+# print list(reversed(temp_l))
+
 ##需要获取域名的list
 domain_list=['pl8.live.panda.tv','pl7.live.panda.tv']
+
 ##查询数据的起始时间
 start_day=datetime.date.today()-datetime.timedelta(days=1)
 end_day=datetime.date.today()-datetime.timedelta(days=7)
@@ -26,6 +32,9 @@ def GetWeekList():
 	##list中每一个为data object
 	return week_list
 current_week_list=GetWeekList()
+# print current_week_list
+##生成倒置的list 为了最后填充数据
+print sorted(current_week_list)
 
 ##取得一周前的时间点，为查询时间段做准备，同上，从2天前开始算
 def GetWeekAgoDay():
@@ -56,7 +65,7 @@ def GetAllData(domain):
 		os._exit(-1)
 	else:
 		##temp_json为返回数据 格式为list
-		print "请求数据平台api成功"
+		# print "请求数据平台api成功"
 		temp_res_list=req.json()['data']
 	return temp_res_list
 
@@ -100,20 +109,20 @@ def CalBandForDomain(domain,data_list):
 		temp_dict_in_list[i]=band_total/(1000*1000)
 		# print temp_dict_in_list
 		# [{'2017-08-02': ''},]
+		final_band_list.append(band_total/(1000*1000))
 		temp_result_list.append(temp_dict_in_list)
 	# print temp_result_list
 	return res_dict
 
-##test
-#if "__name__"=="__main__":
-# GetAllData('pl8.live.panda.tv')
-# CalBandForDomain('pl8.live.panda.tv',[1,2,3])
-# os._exit(-1)
-
+print domain_list
 for i in domain_list:
+	final_band_list=[]
 	##每个domain对应的全量信息
 	temp_all_data=GetAllData(i)
-	print CalBandForDomain(i,temp_all_data)
+	final_res=CalBandForDomain(i,temp_all_data)
+	print final_res
+	print list(reversed(final_band_list))
+	print '**********'
 
 
 
