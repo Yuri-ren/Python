@@ -116,14 +116,38 @@ def CalBandForDomain(domain,data_list):
 	return res_dict
 
 print domain_list
+##生成最终数据填充到echarts中
+'''
+{'pl8.live.panda.tv': [{'2017-08-04': 26766.375197813308}, {'2017-08-03': 26718.32377615999}, {'2017-08-02': 22132.00082202666}, {'2017-08-01': 20950.709171999984}, {'2017-07-31': 18836.00344704}, {'2017-07-30': 22798.786958239965}, {'2017-07-29': 22296.378565813324}]}
+[22296.378565813324, 22798.786958239965, 18836.00344704, 20950.709171999984, 22132.00082202666, 26718.32377615999, 26766.375197813308]
+'''
 for i in domain_list:
+	'''
+	{
+	            'name':'pl8.live.panda.tv',
+	            'type':'line',
+	            'stack': '总量',
+	            'areaStyle': {'normal': {}},
+	            'data':data_list
+	        }
+	'''
+	final_domain_dict={}
+	final_domain_dict['name']=i
+	final_domain_dict['type']='line'
+	final_domain_dict['stack']='总量'
+	final_domain_dict['areaStyle']={'normal': {}}
+	
 	final_band_list=[]
 	##每个domain对应的全量信息
 	temp_all_data=GetAllData(i)
 	final_res=CalBandForDomain(i,temp_all_data)
-	print final_res
-	print list(reversed(final_band_list))
+	# print final_res
+	# print list(reversed(final_band_list))
+	final_domain_dict['data']=list(reversed(final_band_list))
+	print final_domain_dict
 	print '**********'
+	##test
+	os._exit(-1)
 
 
 
