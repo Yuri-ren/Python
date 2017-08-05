@@ -15,7 +15,8 @@ import os
 # print list(reversed(temp_l))
 
 ##需要获取域名的list
-domain_list=['pl8.live.panda.tv','pl7.live.panda.tv']
+# domain_list=['pl8.live.panda.tv','pl7.live.panda.tv']
+domain_list=['pl8.live.panda.tv','xl.live-play.acgvideo.com','pl7.live.panda.tv','xy01.pull.yximgs.com','xy0-flv.live.huajiao.com','hdl61.kascend.com','xy.pull.yximgs.com','xy-hdl.v.momocdn.com','xy.flv.huya.com','get.xycdn.kuwo.cn','xylive-hdl.kascend.com','rtmp6.kascend.com','xy-ws.pull.yximgs.com']
 
 ##查询数据的起始时间
 start_day=datetime.date.today()-datetime.timedelta(days=1)
@@ -134,7 +135,7 @@ for i in domain_list:
 	final_domain_dict={}
 	final_domain_dict['name']=i
 	final_domain_dict['type']='line'
-	final_domain_dict['stack']='总量'
+	# final_domain_dict['stack']='总量'
 	final_domain_dict['areaStyle']={'normal': {}}
 	
 	final_band_list=[]
@@ -145,9 +146,10 @@ for i in domain_list:
 	# print list(reversed(final_band_list))
 	final_domain_dict['data']=list(reversed(final_band_list))
 	print final_domain_dict
-	print '**********'
+	print ','
+	# print '**********'
 	##test
-	os._exit(-1)
+	# os._exit(-1)
 
 
 
