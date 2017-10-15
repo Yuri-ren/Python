@@ -91,7 +91,7 @@ def CalBandForDomain(domain,data_list):
 		# {'2017-08-02': ''}
 		temp_dict_in_list={i:''}
 		for temp_data in data_list:
-			if temp_data['sdate'] == i:		
+			if temp_data['sdate'] == i:
 				if temp_data['domain']==domain:
 					if int(temp_data['country']) != 47:
 						#带宽求和
@@ -137,7 +137,7 @@ for i in domain_list:
 	final_domain_dict['type']='line'
 	# final_domain_dict['stack']='总量'
 	final_domain_dict['areaStyle']={'normal': {}}
-	
+
 	final_band_list=[]
 	##每个domain对应的全量信息
 	temp_all_data=GetAllData(i)
@@ -150,6 +150,3 @@ for i in domain_list:
 	# print '**********'
 	##test
 	# os._exit(-1)
-
-
-
