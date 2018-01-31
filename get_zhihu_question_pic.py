@@ -4,6 +4,8 @@ import re
 import random,os
 import json
 from PIL import Image
+# pip install Pillow
+
 
 ##def http requests headers
 my_headers={
@@ -29,11 +31,11 @@ def get_verify_code():
 	url='https://www.zhihu.com/captcha.gif'
 	req=s.get(url,params={'r':random.random()})
 	#####保存验证码图片
-	with open ('verify.gif','wb') as temp_file:
+	with open ('/tmp/verify.gif','wb') as temp_file:
 		for temp_chunk in req.iter_content(chunk_size=1024):
 			temp_file.write(temp_chunk)
 	####打开外部浏览器渲染验证码并手工输入,直接使用os.system()打开
-	os.system('verify.gif')
+	os.system('/tmp/verify.gif')
 	verify_code=raw_input("input the verify code you have seen in your browser:")
 	return verify_code
 
@@ -70,7 +72,7 @@ def login_zhihu():
     ####构造form 表单
     form['_xsrf']=get_xsrf()
     form['remember_me']='true'
-    form['phone_num']='18661636927'
+    form['phone_num']='18576785181'
     form['password']='15854784557'
     form['captcha_type']='en'
     form['captcha']=get_verify_code2()
@@ -87,4 +89,5 @@ def login_zhihu():
 	print u"失败原因:",return_dict['msg']
 	os._exit(-2)
 
-login_zhihu()
+if __name__=="__main__":
+    login_zhihu()
