@@ -6,6 +6,7 @@ import json
 from PIL import Image
 # pip install Pillow
 
+test_question_url="https://www.zhihu.com/question/266382847"
 
 ##def http requests headers
 my_headers={
@@ -61,9 +62,11 @@ def login_zhihu():
     req=s.post(login_url,headers=my_headers,data=form)
     ####返回的消息格式，为字典类型，dict['msg','r'],msg为消息内容，r为返回码
     return_dict=req.json()
-    #print return_dict
     if(return_dict['r']==0):
-	print u"登陆成功~"
+        print u"登陆成功~"
+        ##找一个问题，带上header，否则会被阻返回500
+        new_req=s.get("https://www.zhihu.com/question/266382847",headers=my_headers)
+        print new_req.text
     else:
         print u"登陆失败!!!"
 	print u"失败原因:",return_dict['msg']
