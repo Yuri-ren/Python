@@ -9,7 +9,7 @@ import random
 
 
 ##生成随机list
-l1=random.sample(range(100000),19000)
+l1=random.sample(range(10000),1900)
 
 #l1=[9,1,7,4,8,2,4,3,6,10,5]
 
