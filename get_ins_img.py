@@ -5,21 +5,21 @@
 '''
 from bs4 import BeautifulSoup
 import requests
-import os
+import os,sys
 import re
 import random
 
+#ins_url="https://www.instagram.com/p/B4zoD0AhqGi/?igshid=3b9f07ptlkw4"
+ins_img_url=sys.argv[1]
+print(ins_img_url)
 
-def grap_img1():
+def grap_img1(ins_img_url):
     url_pattern=re.compile(r'\"display_resources":\[\{\"src\".*?]')
     img_pattern=re.compile(r'\[.*\]$')
     img_url_pattern=re.compile(r'http[s]?:[^\"]+')
 
-    ins_url="https://www.instagram.com/p/B4zoD0AhqGi/?igshid=3b9f07ptlkw4"
-    soup=BeautifulSoup(requests.get(ins_url).text,"html.parser")
-    #print(soup.prettify)
-    #print(soup.script)
-    #os._exit(-1)
+
+    soup=BeautifulSoup(requests.get(ins_img_url).text,"html.parser")
     for meta in soup.find_all("script",type="text/javascript"):
         #print(meta.string)
         ##取出特定属性的tag之后再对其string进行正则匹配
@@ -44,10 +44,12 @@ def grap_img1():
                 for i in re.findall(img_url_pattern,temp_re_secton):
                     temp_req=requests.get(i)
                     temp_file_size=int(temp_req.headers['content-length'])
+                    #print(temp_file_size)
                     if temp_file_size>init_img_size:
                         init_img_size=temp_file_size
                         download_url=i
-                        return download_url
+                print(download_url)
+                return download_url
 
 def get_img(url: object) -> object:
     ##存匹配文件名的路径临时list
@@ -65,6 +67,6 @@ def get_img(url: object) -> object:
     with open(file_path, 'wb') as fileh:
         fileh.write(img_req.content)
 
-img=grap_img1()
+img=grap_img1(ins_img_url)
 print(img)
 get_img(img)
