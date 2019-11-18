@@ -18,7 +18,6 @@ def grap_img1(ins_img_url):
     img_pattern=re.compile(r'\[.*\]$')
     img_url_pattern=re.compile(r'http[s]?:[^\"]+')
 
-
     soup=BeautifulSoup(requests.get(ins_img_url).text,"html.parser")
     for meta in soup.find_all("script",type="text/javascript"):
         #print(meta.string)
@@ -48,12 +47,13 @@ def grap_img1(ins_img_url):
                     if temp_file_size>init_img_size:
                         init_img_size=temp_file_size
                         download_url=i
-                print(download_url)
                 return download_url
 
 def get_img(url: object) -> object:
     ##存匹配文件名的路径临时list
-    img_dir='/Users/bayudan/Desktop/'
+    #img_dir='/Users/bayudan/Desktop/'
+    ##windows下的写法，同样可以使用/路径符号
+    img_dir='F:/ins_pic/'
     tmp_path_list=[]
     ##通过url取得的文件名
     file_type = url.split('?')[0].split('/')[-1]
