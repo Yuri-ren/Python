@@ -5,13 +5,14 @@
 '''
 from bs4 import BeautifulSoup
 import requests
-import os,sys
+import os,sys,platform
 import re
 import random
 
+
 #ins_url="https://www.instagram.com/p/B4zoD0AhqGi/?igshid=3b9f07ptlkw4"
 ins_img_url=sys.argv[1]
-print(ins_img_url)
+#print(ins_img_url)
 
 def grap_img1(ins_img_url):
     url_pattern=re.compile(r'\"display_resources":\[\{\"src\".*?]')
@@ -26,18 +27,12 @@ def grap_img1(ins_img_url):
         if meta.string:
             #print(meta.string.encode('utf-8'))
             re_string=str(meta.string.strip().encode('utf-8'))
-            #print(type(re_string))
-            #print(re_string)
-            #print(re.search(url_pattern,re_string))
             if(re.search(url_pattern,re_string)):
                 ##已经匹配到包含img url的string了
                 ##使用re.group()来抓取已经匹配上的字符串部分
                 ##url中\u0026表示&符号，要再作一次转换才行
                 temp_re_secton=re.search(url_pattern,re_string).group().replace(r'\\u0026','&').replace(r'"display_resources":','').replace('[','').replace(']','')
-                ##直接取出url来
-                #print(re.findall(img_url_pattern,temp_re_secton))
                 ##取出来URL，对应的去请求header，然后根据response header中的content-length来判断文件大小
-                #res_dist={'final_url':'','img_size':0}
                 init_img_size=0
                 #print(type(init_img_size))
                 for i in re.findall(img_url_pattern,temp_re_secton):
@@ -67,6 +62,7 @@ def get_img(url: object) -> object:
     with open(file_path, 'wb') as fileh:
         fileh.write(img_req.content)
 
-img=grap_img1(ins_img_url)
-print(img)
-get_img(img)
+if __name__=="__main__":
+    img=grap_img1(ins_img_url)
+    print(img)
+    get_img(img)
