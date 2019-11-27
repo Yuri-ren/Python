@@ -18,6 +18,3 @@
 
 ###**get_newest_cf_act.py**  抓取cf最新活动
 > * 抓取cf.huodong.com首页最新的cf活动页面并且微信出来
-
-###**get_newest_cf_act.py**  抓取cf最新活动
-> * 抓取cf.huodong.com首页最新的cf活动页面并且微信出来
