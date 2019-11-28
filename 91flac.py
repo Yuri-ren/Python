@@ -1,5 +1,9 @@
 # coding: utf-8
 
+'''
+登陆91flac的测试脚本
+add by yuri
+'''
 import requests
 from bs4 import BeautifulSoup
 import os,sys
@@ -37,8 +41,19 @@ def get_fake_headers():
 
 s=requests.Session()
 login_req=s.get('https://www.91flac.com/login')
-##获取login页面中的csrf-token值
-soup=BeautifulSoup(login_req.text,'html.parser')
+##页面正常响应的话，获取login页面中的csrf-token值
+if login_req.status_code==200:
+    soup=BeautifulSoup(login_req.text,'html.parser')
+    ##找到页面中csrf这一段
+    temp_res=soup.head.find(attrs={'name':'csrf-token'})
+    ##取出csrf的值
+    if temp_res:
+        page_csrf=temp_res['content']
+else:
+    print("页面响应异常")
+    os._exit(-1)
+print(page_csrf)
+os._exit(-2)
 temp_tag=soup.head.find_all('meta')
 for i in temp_tag:
     #print(type(i))
@@ -48,6 +63,7 @@ for i in temp_tag:
         #print(key)
         if temp_dict[key] == 'csrf-token':
             page_token=temp_dict['content']
+
 
 
 login_post_data={'_token':page_token,'email':'79052441@qq.com','password':yuri_password,'remember':'on'}
