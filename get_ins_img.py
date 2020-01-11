@@ -13,7 +13,7 @@ import random
 
 
 # ins_url="https://www.instagram.com/p/B4zoD0AhqGi/?igshid=3b9f07ptlkw4"
-ins_img_url = sys.argv[1]
+ins_img_url = input('粘贴Instagram图片地址：')
 # print(ins_img_url)
 
 
