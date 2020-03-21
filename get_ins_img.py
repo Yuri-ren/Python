@@ -11,10 +11,7 @@ import platform
 import re
 import random
 
-
-# ins_url="https://www.instagram.com/p/B4zoD0AhqGi/?igshid=3b9f07ptlkw4"
 ins_img_url = sys.argv[1]
-# print(ins_img_url)
 
 
 def grap_img1(ins_img_url):
@@ -51,9 +48,9 @@ def grap_img1(ins_img_url):
 
 def get_img(url: object) -> object:
     # 存匹配文件名的路径临时list
-    # img_dir='/Users/bayudan/Desktop/'
+    img_dir='/Users/bayudan/Desktop/'
     # windows下的写法，同样可以使用/路径符号
-    img_dir = 'F:/ins_pic/'
+    #img_dir = 'F:/ins_pic/'
     tmp_path_list = []
     # 通过url取得的文件名
     file_type = url.split('?')[0].split('/')[-1]
